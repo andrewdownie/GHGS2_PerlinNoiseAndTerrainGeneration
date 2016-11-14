@@ -9,4 +9,14 @@ public class TerrainPiece
 
 
     public int percentMovementModifier;
+
+
+    public GameObject Instantiate(int x, int z, int floorLevel, Transform parent)
+    {
+        GameObject go = (GameObject)GameObject.Instantiate(model, new Vector3(x, floorLevel, z), Quaternion.identity, parent);
+
+        go.name = "[" + x.ToString("000") + ", " + floorLevel.ToString("000") + ", " + z.ToString("000") + "]";
+
+        return go;
+    }
 }

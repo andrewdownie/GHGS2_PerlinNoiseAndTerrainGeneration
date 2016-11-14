@@ -9,7 +9,7 @@ public class SimpleGenerator : TerrainGenerator {
 
    
 
-    public override GenerationResult Generate()
+    public override GenerationResult Generate(int width, int height, int floorLevel)
     {
         GenerationResult result = new GenerationResult(width, height, floorLevel);
 
@@ -37,10 +37,10 @@ public class SimpleGenerator : TerrainGenerator {
                 }
                 else
                 {
-                    go = (GameObject)Instantiate(unwalkableTerrainPiece.model, new Vector3(x, floorLevel, z), Quaternion.identity, transform);
+                    go = unwalkableTerrainPiece.Instantiate(x, z, floorLevel, transform);
                 }
 
-                go.name = "[" + x.ToString("000") + ", " + floorLevel.ToString("000") + ", " + z.ToString("000") + "]";
+               
 
                 result.Model(x, z, go);
             }

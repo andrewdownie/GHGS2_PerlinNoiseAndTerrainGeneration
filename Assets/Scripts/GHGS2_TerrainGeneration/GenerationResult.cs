@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class GenerationResult {
-    private int width, height, floorLevel;
 
 
     private bool[,] walkable;
@@ -12,25 +11,8 @@ public class GenerationResult {
 
     public GenerationResult(int width, int height, int floorLevel)
     {
-        this.width = width;
-        this.height = height;
-        this.floorLevel = floorLevel;
-
         walkable = new bool[width, height];
         model = new GameObject[width, height];
-    }
-
-    public int Width
-    {
-        get { return width; }
-    }
-    public int Height
-    {
-        get { return height; }
-    }
-    public int FloorLevel
-    {
-        get { return floorLevel; }
     }
 
 

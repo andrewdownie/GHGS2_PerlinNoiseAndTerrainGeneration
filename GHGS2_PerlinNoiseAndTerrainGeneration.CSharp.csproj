@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\GHGS1_ThreadPooledAStar\Data Objects\PathRequestMailBox.cs" />
     <Compile Include="Assets\Scripts\GHGS1_ThreadPooledAStar\Data Objects\PathResult.cs" />
     <Compile Include="Assets\Scripts\GHGS1_ThreadPooledAStar\TestAStar.cs" />
+    <Compile Include="Assets\Scripts\GHGS2_TerrainGeneration\ExperimentalGenerator.cs" />
     <Compile Include="Assets\Scripts\GHGS2_TerrainGeneration\GenerationResult.cs" />
     <Compile Include="Assets\Scripts\GHGS2_TerrainGeneration\SimpleGenerator.cs" />
     <Compile Include="Assets\Scripts\GHGS2_TerrainGeneration\TerrainGenerator.cs" />
