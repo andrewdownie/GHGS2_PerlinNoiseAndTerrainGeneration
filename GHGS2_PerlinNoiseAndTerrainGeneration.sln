@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHGS2_PerlinNoiseAndTerrainGeneration.CSharp", "GHGS2_PerlinNoiseAndTerrainGeneration.CSharp.csproj", "{DD666A70-EFF4-4C8B-B5C2-2B7BD2991F77}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD666A70-EFF4-4C8B-B5C2-2B7BD2991F77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD666A70-EFF4-4C8B-B5C2-2B7BD2991F77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD666A70-EFF4-4C8B-B5C2-2B7BD2991F77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD666A70-EFF4-4C8B-B5C2-2B7BD2991F77}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

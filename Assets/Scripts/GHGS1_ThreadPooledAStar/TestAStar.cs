@@ -129,17 +129,38 @@ public class TestAStar : MonoBehaviour{
 
         if (latency > 0)
         {
-            GUI.Label(new Rect(20, 80, 500, 22), "AStar time taken: " + lastTimeTaken + " milliseconds");
+            GUI.Label(new Rect(20, 100, 500, 22), "AStar time taken: " + lastTimeTaken + " milliseconds");
         }
         if (latency > 0)
         {
-            GUI.Label(new Rect(20, 100, 500, 22), "Request latency: " + latency + " milliseconds");
+            GUI.Label(new Rect(20, 120, 500, 22), "Request latency: " + latency + " milliseconds");
         }
        
 
         if (pathNotFound)
         {
-            GUI.Label(new Rect(20, 120, 500, 22), "PATH NOT POSSIBLE");
+            GUI.Label(new Rect(20, 140, 500, 22), "PATH NOT POSSIBLE");
+        }
+    }
+
+
+    public static void Print(bool[,] boolArray2D)
+    {
+        for (int y = 0; y < boolArray2D.GetLength(1); y++)
+        {
+            string row = "";
+            for (int x = 0; x < boolArray2D.GetLength(0); x++)
+            {
+                if (boolArray2D[x, y] == true)
+                {
+                    row += "-";
+                }
+                else
+                {
+                    row += "#";
+                }
+            }
+            Debug.Log(row);
         }
     }
 }
