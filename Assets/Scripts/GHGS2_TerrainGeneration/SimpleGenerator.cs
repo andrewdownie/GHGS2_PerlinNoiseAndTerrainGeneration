@@ -6,12 +6,13 @@ public class SimpleGenerator : TerrainGenerator {
 
 
     public TerrainPiece unwalkableTerrainPiece;
+    public TerrainPiece walkableTerrainPiece;
 
    
 
-    public override GenerationResult Generate(int width, int height, int floorLevel)
+    public override GenerationResult Generate(int width, int height, int floorLevel, Transform parent)
     {
-        GenerationResult result = new GenerationResult(width, height, floorLevel);
+        GenerationResult result = new GenerationResult(width, height, floorLevel, parent);
 
         
         for (int x = 0; x < width; x++)
@@ -24,25 +25,20 @@ public class SimpleGenerator : TerrainGenerator {
                 {
                     w = true;
                 }
-                
-                result.Walkable(x, z, w);
 
 
-                GameObject go;
+                TerrainPiece piece;
                 if (w)
                 {
-                    go = new GameObject();
-                    go.transform.parent = transform;
-                    go.transform.position = new Vector3(x, floorLevel, z);
+                    piece = walkableTerrainPiece;
                 }
                 else
                 {
-                    go = unwalkableTerrainPiece.Instantiate(x, z, floorLevel, transform);
+                    piece = unwalkableTerrainPiece;
                 }
 
-               
 
-                result.Model(x, z, go);
+                result[x, z] = piece;
             }
         }
         

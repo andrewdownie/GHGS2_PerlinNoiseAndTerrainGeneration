@@ -4,7 +4,7 @@
 public abstract class TerrainGenerator : MonoBehaviour {
     
 
-    public abstract GenerationResult Generate(int width, int height, int floorLevel);
+    public abstract GenerationResult Generate(int width, int height, int floorLevel, Transform parent);
 }
 
 

@@ -74,6 +74,7 @@
     <Compile Include="Assets\Scripts\GHGS2_TerrainGeneration\TerrainGenerator.cs" />
     <Compile Include="Assets\Scripts\GHGS2_TerrainGeneration\TerrainPiece.cs" />
     <Compile Include="Assets\Scripts\Grid.cs" />
+    <Compile Include="Assets\Scripts\PerlinNoise.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

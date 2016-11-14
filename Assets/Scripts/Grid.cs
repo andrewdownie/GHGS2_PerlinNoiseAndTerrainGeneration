@@ -46,7 +46,7 @@ public class Grid : MonoBehaviour {
             return; 
         }
 
-        GenerationResult gr = terrainGenerator.Generate(width, height, floorLevel);
+        GenerationResult gr = terrainGenerator.Generate(width, height, floorLevel, transform);
         model = gr.Model();
         walkable = gr.Walkable();
         

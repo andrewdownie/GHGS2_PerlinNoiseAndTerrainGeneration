@@ -3,106 +3,74 @@ using System.Collections;
 
 public class ExperimentalGenerator : TerrainGenerator
 {
+    public float noiseScale;
+
+    public int octaves;
+    [Range(0, 1)]
+    public float persistance;
+    public float lacunarity;
+
+    public int seed;
+    public bool generateSeed;
+    public Vector2 offset;
 
     public TerrainPiece[] terrainPieces;
     public int[] terrainPiecesProbabilities;
 
-    public override GenerationResult Generate(int width, int height, int floorLevel)
+    public override GenerationResult Generate(int width, int height, int floorLevel, Transform parent)
     {
-        GenerationResult result = new GenerationResult(width, height, floorLevel);
+        GenerationResult result = new GenerationResult(width, height, floorLevel, parent);
 
-        int[,] results = new int[width, height];
-
-        for(int x = 0; x < width; x++)
+        if(generateSeed)
         {
-            for(int z = 0; z < height; z++)
-            {
-                results[x, z] = ChoosePiece();
-            }
+            seed = System.Environment.TickCount;
         }
-
-
-
-        ///
-        /// My attempt at smoothing
-        ///
-        int smoothIterations = 1;
-        for(int smoothIteration = 0; smoothIteration < smoothIterations; smoothIteration++)
-        {
+        float[,] noiseMap = PerlinNoise.GenerateNoiseMap(width, height, seed, noiseScale, octaves, persistance, lacunarity, offset);
 
         
-            for (int x = 0; x < width; x++)
-            {
-                for (int z = 0; z < height; z++)
-                {
-                    int[] matchCount = new int[terrainPieces.Length];
-                    for(int i = 0; i < matchCount.Length; i++)
-                    {
-                        matchCount[i] = 0;
-                    }
 
-                    for(int xOff = -1; xOff <= 1; xOff++)
-                    {
-                        for(int zOff = -1; zOff <=1; zOff++)
-                        {
-                            int newX = x + xOff, newZ = z + zOff;
-                            if(newX < 0 || newX >= width || newZ < 0 || newZ >= height)
-                            {
-                                continue;
-                            }
-
-                            matchCount[results[newX, newZ]]++;
-
-                        }
-                    }
-
-                    results[x, z] = BiggestIndex(matchCount);
-                }
-            }
-        }
-
-
-        for (int x = 0; x < width; x++)
+        for(int z = 0; z < height; z++)
         {
-            for (int z = 0; z < height; z++)
+            for(int x = 0; x < width; x++)
             {
-                GameObject go;
-                go = terrainPieces[results[x, z]].Instantiate(x, z, floorLevel, transform);
-                result.Model(x, z, go);
+                int chance = Mathf.FloorToInt(noiseMap[x, z] * 100);
+
+
+                TerrainPiece piece = ChoosePiece(chance);
+                if ((x == 0 && z == 0) || (x == width - 1 && z == height - 1))
+                {
+                    piece = terrainPieces[2];
+                }
+                else
+                {
+                    piece = ChoosePiece(chance);
+                }
+
+
+                result[x, z] = piece;
             }
         }
+
+        
+
 
         return result;
     }
 
-    int BiggestIndex(int[] list)
-    {
-        int biggest = -1;
 
-        for(int i = 0; i < list.Length; i++)
+
+    private TerrainPiece ChoosePiece(int chance)
+    {
+
+        for (int i = 0; i < terrainPiecesProbabilities.Length; i++)
         {
-            if(list[i] > biggest)
+            if (chance < terrainPiecesProbabilities[i])
             {
-                biggest = i;
+                return terrainPieces[i];
             }
         }
 
-        return biggest;
-    }
-
-    private int ChoosePiece()
-    {
-        int rand = Random.Range(1, 101);
-
-        for (int i = terrainPiecesProbabilities.Length - 1; i >= 0; i--)
-        {
-            if (rand > terrainPiecesProbabilities[i])
-            {
-                return i;
-            }
-        }
-
-        return 0;
+        return terrainPieces[0];
     }
     
 }
