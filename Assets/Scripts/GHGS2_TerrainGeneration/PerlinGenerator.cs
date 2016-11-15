@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ExperimentalGenerator : TerrainGenerator
+public class PerlinGenerator : TerrainGenerator
 {
     public float noiseScale;
 
@@ -50,7 +50,6 @@ public class ExperimentalGenerator : TerrainGenerator
                 result[x, z] = piece;
             }
         }
-
         
 
 
