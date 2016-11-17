@@ -42,6 +42,9 @@ public class TestAStar : MonoBehaviour{
 
     bool pathNotFound;
 
+    bool searchingMain;
+    int searchingThread;
+
 
     PathRequestMailBox mailbox;
 
@@ -52,18 +55,31 @@ public class TestAStar : MonoBehaviour{
         latency = 0;
         pathNotFound = false;
         mailbox = new PathRequestMailBox();
+        searchingMain = false;
+        searchingThread = 0;
     }
 
 
     void Update()
     {
-        if(Input.GetKeyDown(runThreaded) || fakeButtonThreaded == true || loopThreaded == true)
+        //Do this first, so that OnDrawGUI will have a chance to pick up when a player searches on the main thread
+        if (searchingMain)
+        {
+            stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            PathRequest request = new PathRequest(grid.Walkable, startPos, endPos);
+            PathFound(AStar.FindPath(request));
+            searchingMain = false;
+        }
+
+
+        if (Input.GetKeyDown(runThreaded) || fakeButtonThreaded == true || loopThreaded == true)
         {
             ClearPathRep();
             fakeButtonThreaded = false;
             stopwatch = System.Diagnostics.Stopwatch.StartNew();
             PathRequest request = new PathRequest(grid.Walkable, startPos, endPos);
             mailbox.RequestPath(request);
+            searchingThread++;
         }
 
 
@@ -71,16 +87,18 @@ public class TestAStar : MonoBehaviour{
         {
             ClearPathRep();
             fakeButton = false;
-            stopwatch = System.Diagnostics.Stopwatch.StartNew();
-            PathRequest request = new PathRequest(grid.Walkable, startPos, endPos);
-            PathFound(AStar.FindPath(request));
+            searchingMain = true;
         }
+
+       
 
 
         if (mailbox.UnsafeHasResult())
         {
             PathFound(mailbox.SafeGetResult());
+            searchingThread--;
         }
+
 
     }
     
@@ -135,9 +153,21 @@ public class TestAStar : MonoBehaviour{
         {
             GUI.Label(new Rect(20, 120, 500, 22), "Request latency: " + latency + " milliseconds");
         }
-       
 
-        if (pathNotFound)
+     
+         GUI.Label(new Rect(20, Screen.height - 20, 1000, 22), "Note: due to the inefficent data structure used to sort nodes, and the size of this map, searching may take around 30 seconds");
+        
+        if(searchingMain || searchingThread > 0)
+        {
+            string mainMsg = "";
+            if (searchingMain)
+            {
+                mainMsg = "The main thread, and: ";
+            }
+
+            GUI.Label(new Rect(20, 140, 1000, 22), "Searching for paths on: " + mainMsg + searchingThread + " other threads");
+        }
+        else if (pathNotFound)
         {
             GUI.Label(new Rect(20, 140, 500, 22), "PATH NOT POSSIBLE");
         }
